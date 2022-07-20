@@ -13,7 +13,7 @@ function App() {
 
   
 
-  const [ images, setImages ] = useState([]);
+  const [ images, setImages ] = useState(Array<Object>);
   const [ isLoading, setIsLoading ] = useState(Array<Object>)
   const [ isOpen, setIsOpen ] = useState(false)
   
@@ -28,22 +28,28 @@ function App() {
     try {
 
       const res = await axios.get(url)
-      const imgArr: [] = await res.data.imagesData
+      const imgArr = await res.data.imagesData
       
-      setImages(imgArr);
-      
-      
+      setImages(imgArr.reverse().slice(0, 100));
 
     } catch (error) {
       console.log(error)
     }
   }
 
+  function searchFunc (wordToMatch: string, array: any[]): Array<any>{
+    return array.filter((img: any)=>{
+      const regex = new RegExp( wordToMatch, 'gi');
+      return img.label.match(regex)
+    })
+  }
+
+
 
   return (
     <>
-      <Header openModal={()=> setIsOpen(true)}/>
-      <Gallery images={images}/>
+      <Header openModal={()=> setIsOpen(true)} searchFunc={(e: Event)=>{setImages(searchFunc( (e.target as HTMLInputElement).value, images))}}/>
+      <Gallery images={images} />
       <NewImage open={isOpen} onClose={()=> setIsOpen(false)} />
     </>
   )

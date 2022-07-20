@@ -3,7 +3,7 @@ import axios from 'axios'
 import Image from './Image'
 
 interface galleryProps{
-  images: Array<never>
+  images: Array<Object>
 }
 
 const Gallery = ({ images } :galleryProps) => {
@@ -13,7 +13,7 @@ const Gallery = ({ images } :galleryProps) => {
 
        {images.map((img: any)=>{
         return <Image key={img.imageId} label={img.label} url={img.imageURL} id={img.imageId} />
-       }).reverse().slice(0, 100)}
+       })}
 
     </div>
 
