@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, createContext } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import axios from 'axios'
@@ -8,9 +8,11 @@ import NewImage from './components/NewImage';
 import DeleteImage from './components/DeleteImage';
 import Gallery from './components/Gallery';
 
+
+
 function App() {
   
-
+  
   
 
   const [ images, setImages ] = useState(Array<Object>);
@@ -19,7 +21,7 @@ function App() {
   
   const url = 'https://my-unsplash-ts.herokuapp.com/api/v1/images';
 
-
+  // const imageContext = createContext(images);
   useEffect(()=>{
     getImages()
   },[])
@@ -30,29 +32,34 @@ function App() {
       const res = await axios.get(url)
       const imgArr = await res.data.imagesData
       
-      setImages(imgArr.reverse().slice(0, 100));
+      setImages(imgArr.reverse().slice(0, 140));
 
     } catch (error) {
       console.log(error)
     }
   }
 
-  function searchFunc (wordToMatch: string, array: any[]): Array<any>{
-    return array.filter((img: any)=>{
-      const regex = new RegExp( wordToMatch, 'gi');
-      return img.label.match(regex)
-    })
-  }
+  // function searchFunc (wordToMatch: string, array: any[]): Array<any>{
+  //   return array.filter((img: any)=>{
+  //     const regex = new RegExp( wordToMatch, 'gi');
+  //     return img.label.match(regex)
+  //   })
+  // }
 
 
-
+  
   return (
     <>
-      <Header openModal={()=> setIsOpen(true)} searchFunc={(e: Event)=>{setImages(searchFunc( (e.target as HTMLInputElement).value, images))}}/>
+      
+
+      <Header openModal={()=> setIsOpen(true)} />
       <Gallery images={images} />
       <NewImage open={isOpen} onClose={()=> setIsOpen(false)} />
+
+      
+      
     </>
   )
 }
-
+;
 export default App

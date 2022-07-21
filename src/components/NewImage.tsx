@@ -23,8 +23,10 @@ const NewImage = ({ open, onClose, }: newImageprops) => {
 		}
 
 		const res = await axios.post(url , details);
-		if (res.status === 200){
-			onClose();
+
+		if (res){
+			console.log(res)
+			onClose
 		}
 	}
 	if (!open) return null;
